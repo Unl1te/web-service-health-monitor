@@ -1,0 +1,22 @@
+{{ define "telegram.message" -}}
+{{- if .Alerts.Firing -}}
+🚨 <b>FIRING</b> 🚨
+{{ range .Alerts }}
+➡️ <b>Alert:</b> {{ .Labels.alertname }}
+📝 <b>Summary:</b> {{ .Annotations.summary }}
+📖 <b>Description:</b> {{ .Annotations.description }}
+🕒 <b>Time:</b> {{ (.StartsAt).Format "02.01.2006 15:04:05" }}
+🏷️ <b>Labels:</b> {{ range $key, $value := .Labels }}{{ $key }}={{ $value }} {{ end }}
+🔗 <b>Source:</b> [Prometheus Alert]({{ .GeneratorURL }})
+{{ end }}
+{{- end -}}
+
+{{- if .Alerts.Resolved -}}
+✅ <b>RESOLVED</b> ✅
+{{ range .Alerts }}
+➡️ <b>Alert:</b> {{ .Labels.alertname }}
+🕒 <b>Started:</b> {{ (.StartsAt).Format "02.01.2006 15:04:05" }}
+🕒 <b>Ended:</b> {{ (.EndsAt).Format "02.01.2006 15:04:05" }}
+{{ end }}
+{{- end -}}
+{{ end }}

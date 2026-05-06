@@ -1,0 +1,11 @@
+groups:
+  - name: health_alerts
+    rules:
+      - alert: ServiceDown
+        expr: up{job="flask_app"} == 0
+        for: 5s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Health check failed"
+          description: "App has been unreachable for more than 1 minute"
